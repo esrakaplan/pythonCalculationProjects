@@ -40,8 +40,8 @@ successful_scores = exam_results[exam_results >= 70]
 failed_scores = exam_results[exam_results < 70]
 
 print(f"70+ scores, student count: {successful_student_count} ({successful_rate:.1f}%)")
-print(f"Successful student average scores: {np.mean(successful_scores):.2f}")
-print(f"Failed student average scores: {np.mean(failed_scores):.2f}")
+print(f"Average scores for successful student : {np.mean(successful_scores):.2f}")
+print(f"Average scores for  failed student: {np.mean(failed_scores):.2f}")
 
 
 print("\nPandas DataFrame")
@@ -50,14 +50,12 @@ print("-" * 60)
 df = pd.DataFrame({
     'Student': student_names,
     'Score': exam_results,
-    'State': ['Sucessfull' if p >= 70 else 'Failed' for p in exam_results],
+    'State': ['Successful' if p >= 70 else 'Failed' for p in exam_results],
     'Letter_Grade': ['A' if p >= 90 else 'B' if p >= 80 else 'C' if p >= 70 else 'D' if p >= 60 else 'F' for p in exam_results]
 })
 
-print(f"\nDataFrame Info:")
-print(df.info())
 
-print(df.head(10))
+print(df.head(30))
 
 print("\n Pandas Deep Analysis")
 print("-" * 60)
