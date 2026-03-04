@@ -6,16 +6,16 @@ from datetime import datetime, timedelta
 np.random.seed(42)
 
 
-dates = pd.date_range(start='2023-01-01', periods=365, freq='D')
+dates = pd.date_range(start='2023-01-01', periods=10, freq='D')
 
 
 sales = pd.DataFrame({
     'Date': dates,
-    'Product': np.random.choice(['Laptop', 'Mouse', 'Keyboard', 'Monitor', 'USB'], 365),
-    'Category': np.random.choice(['Electronics', 'Accessories'], 365),
-    'Sale_Quantity': np.random.randint(1, 10, 365),
-    'Unit_Price': np.random.choice([15, 25, 50, 200, 400], 365),
-    'Region': np.random.choice(['Istanbul', 'Ankara', 'Izmir', 'Antalya'], 365),
+    'Product': np.random.choice(['Laptop', 'Mouse', 'Keyboard', 'Monitor', 'USB'], 10),
+    'Category': np.random.choice(['Electronics', 'Accessories'], 10),
+    'Sale_Quantity': np.random.randint(1, 10, 10),
+    'Unit_Price': np.random.choice([15, 25, 50, 200, 400], 10),
+    'Region': np.random.choice(['Istanbul', 'Ankara', 'Izmir', 'Antalya'], 10),
 })
 
 
@@ -24,8 +24,8 @@ sales['Total_Sale'] = sales['Sale_Quantity'] * sales['Unit_Price']
 print(f"Dataset Shape: {sales.shape}")
 print(f"Date Range: {sales['Date'].min()} - {sales['Date'].max()}")
 
-print("\nFirst 10 Rows:")
-print(sales.head(10))
+print("\nSales Data Frame")
+print(sales)
 
 
 # ===== TASK 1: Basic Statistics =====
@@ -87,28 +87,7 @@ print("\nRegional Sales Contribution (%):")
 print(region_analysis[['Total_Sales', 'Percentage']])
 
 
-
-print("\n[TASK 4] Time Series Analysis")
-print("-" * 60)
-
-
-sales['Month'] = sales['Date'].dt.to_period('M')
-monthly_sales = sales.groupby('Month')['Total_Sale'].sum()
-
-print("\nMonthly Sales:")
-print(monthly_sales.head(12))
-
-print(f"\nHighest Sales Month: {monthly_sales.idxmax()} (${monthly_sales.max():,.2f})")
-print(f"Lowest Sales Month: {monthly_sales.idxmin()} (${monthly_sales.min():,.2f})")
-
-# Weekly sales
-sales['Week'] = sales['Date'].dt.isocalendar().week
-weekly_sales = sales.groupby('Week')['Total_Sale'].mean()
-
-print(f"\nHighest Average Sales Week: {weekly_sales.idxmax()} (${weekly_sales.max():,.2f})")
-
-
-print("\n[TASK 5] Category Based Analysis")
+print("\n[TASK 4] Category Based Analysis")
 print("-" * 60)
 
 category_analysis = sales.groupby('Category').agg({
@@ -121,7 +100,7 @@ print("\nCategory Summary:")
 print(category_analysis)
 
 
-print("\n[TASK 6] Pivot Table (Product × Region)")
+print("\n[TASK 5] Pivot Table (Product × Region)")
 print("-" * 60)
 
 pivot_table = pd.pivot_table(
@@ -136,7 +115,7 @@ print("\nProduct × Region Sales Matrix:")
 print(pivot_table)
 
 
-print("\n[TASK 7] Data Transformation")
+print("\n[TASK 6] Data Transformation")
 print("-" * 60)
 
 # Add tax and net sales columns
@@ -159,7 +138,7 @@ print("\nAfter Adding Tax and Net Sales:")
 print(sales[['Date', 'Product', 'Total_Sale', 'Tax', 'Net_Sale', 'Sale_Level']].head(10))
 
 
-print("\n[TASK 8] Data Quality Check")
+print("\n[TASK 7] Data Quality Check")
 print("-" * 60)
 
 print(f"\nTotal Rows: {len(sales)}")
@@ -169,13 +148,14 @@ print(f"\nMissing Values:\n{sales.isnull().sum()}")
 print(f"\nData Types:\n{sales.dtypes}")
 
 
-print("\n[TASK 9] Correlation Analysis")
+print("\n[TASK 8] Correlation Analysis")
 print("-" * 60)
 
 correlation = sales[['Sale_Quantity', 'Unit_Price', 'Total_Sale']].corr().round(3)
 
 print("\nCorrelation Between Numeric Variables:")
 print(correlation)
+
 
 print("\n[OUTPUT] Save Reports")
 print("-" * 60)
@@ -191,7 +171,3 @@ print("✓ Product analysis saved to 'product_analysis.csv'")
 # Save pivot table
 pivot_table.to_csv('pivot_table.csv', encoding='utf-8')
 print("✓ Pivot table saved to 'pivot_table.csv'")
-
-print("\n" + "="*60)
-print("PROJECT 2 COMPLETED")
-print("="*60)
